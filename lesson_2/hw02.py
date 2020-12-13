@@ -6,7 +6,7 @@ __author__ = 'Дю Д.Н.'
 # иначе "Извините, пользоваться данным ресурсом можно только с 18 лет"
 
 age = int(input("Привет, Сколько Вам лет: "))
-if age > 18:
+if age >= 18:
   print ("Доступ разрешен!")
 else:
   print("Извините, пользоваться данным ресурсом можно только с 18 лет")
@@ -82,7 +82,6 @@ num = 58375
 lst = list(str(num))
 maximum = lst[0]
 for number in lst:
-  if  number > maximum:
-    maximum = number
+  if int(number) > int(maximum):
+    maximum = int(number)
 print("max number = ", maximum)
-
