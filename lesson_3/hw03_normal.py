@@ -75,7 +75,7 @@ month = ["январь",
         "декабрь",
         ]
 
-if dd <=31 and mm <=12:
+if 31 >= dd != 0 and dd > 0 and 12 >= mm != 0 and mm > 0:
     dd -= 1
     dd = date[dd]
     mm -= 1
@@ -94,8 +94,8 @@ import random
 
 # Неотсортированный рандомный список
 lst_1 = []
-for i in range(-100, 101):
-    items = random.randint(-100, 101) #-получение случайных чисел
+for i in range(-101, 101):
+    items = random.randint(-100, 100) #-получение случайных чисел
     lst_1.append(items)
 print(lst_1)
 print("")

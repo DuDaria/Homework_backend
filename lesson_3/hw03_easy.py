@@ -13,8 +13,8 @@
 
 # Подсказка: воспользоваться методом .format()
 fructs = ["яблоко", "банан", "киви", "арбуз"]
-for index in range (len(fructs)):
-    print(f"{index+1}.",'{:>7}'.format(fructs[index]))
+for index, fruit in enumerate (fructs, 1):
+    print(f"{index}.",'{:>7}'.format(fruit))
 print("")
 
 # Задача-2:
@@ -26,11 +26,11 @@ lst_2 = [3, 6, 7, 8, 9]
 print(lst_1)
 print(lst_2)
 
-for i in lst_1:
+for i in lst_1.copy():
     if i in lst_2:
         lst_1.remove(i)
-        print(lst_1)
-        print(lst_2)
+print(lst_1)
+print(lst_2)
 print("")
 
 # Задача-3:
