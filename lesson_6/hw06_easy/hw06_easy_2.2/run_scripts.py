@@ -1,7 +1,7 @@
 import os
 import sys
-import script_create_dir as cds
-import script_del_dir as cdd
+from script_create_dir import make_dir
+from script_del_dir import del_dir
 
 print('sys.argv = ', sys.argv)
 print("Текущая деректория:", os.getcwd())
@@ -14,7 +14,7 @@ try:
         n += 1
         try:
             name_dir = str(input("Укажите название директорий: "))
-            cds.make_dir(name_dir, n)
+            make_dir(name_dir, n)
         except NameError:
             print("NameError")
         except OSError:
@@ -27,7 +27,7 @@ print("Директории можно удалить.")
 del_dir_input = input("Удаление директорий 'yes' или 'no':")
 
 if del_dir_input == 'yes':
-    cdd.del_dir(name_dir, n)
+    del_dir(name_dir, n)
 elif del_dir_input == 'no':
     print("Директории сохранены")
 else:

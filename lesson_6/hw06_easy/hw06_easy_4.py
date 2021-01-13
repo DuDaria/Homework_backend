@@ -5,13 +5,7 @@ import os
 
 def cur_copy_file():
     path = os.getcwd()
-    path_file = os.path.join(path, __file__)
-    
-    path_file = str(path_file)
-    raw_str = r'{}'.format(path_file)
-
-    list_file = raw_str.split('\\')
-    file_end = list_file[-1]
+    file_end = os.path.basename(__file__)
     print(file_end)
     
     file_copy = 'copy_' + file_end

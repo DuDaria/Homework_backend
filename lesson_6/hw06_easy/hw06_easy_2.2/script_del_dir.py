@@ -7,6 +7,8 @@ def del_dir(name_dir, n):
     try:
         for i in range(1, n):
             os.rmdir('{}_{}'.format(name_dir, i))
-            print('Директории {}_{} удалены'. format(name_dir, i))
+            print('Директории {}_{} удалены'.format(name_dir, i))
     except FileExistsError:
         print('Директории {} уже удалены'.format(name_dir))
+    except FileNotFoundError:
+        print("Не удается найти указанный файл(ы): {}_{}".format(name_dir, i))

@@ -82,12 +82,31 @@ print("")
 # Вход: 11
 # Выход: 5 3
 
-print("Unfortunately did not solve this task_№3")
+print("Добро пожаловать к нам!!!")
+print("В нашей удивительной башне находяться 2 000 000 000 комнат.")
+room = int(input("Выберите № комнаты: "))
 
-# print("Добро пожаловать к нам!!!")
-# print("В нашей удивительной башне находяться 2 000 000 000 комнат.")
-# room = int(input("Выберите № комнаты: "))
-# floor = []
-# num_left_floor = []
-# print(f"Поздравляем! Ваша комната находиться на {floor} этаже.")
-# print(f"Ваш порядковый номер {num_left_floor} слева на этаже.")
+tower = [] 
+i = 0 
+x = 0 
+f = 0 
+d = 0 
+
+while i < room:
+    x += 1
+    block = []
+    for j in range(x):
+        f += 1
+        floor = []
+        for d in range(x):
+            i += 1
+            floor.append(i)
+            if i == room:
+                print(f"Поздравляем! Ваша комната №{room} находиться на {f} этаже.")
+                print(f"Ваш порядковый номер {d + 1} слева на этаже.")
+
+        block.append(floor)
+    tower.append(block)
+
+print("Перевернутая башня:")
+print(str(tower).replace("],", "]\n").replace("]", "").replace("[", "\r").replace(",", ""))
