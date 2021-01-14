@@ -28,12 +28,11 @@ with open(path, 'r', encoding='UTF-8') as w:
             list_fruits.append(string)
     
 for item in list_fruits:
-    dict_fruit = {}
     k = item[0][0]
 
     if k in alphabet:
         file_name = 'fruits_' + k + '.txt'
- 
+
         path = os.path.join('data', file_name)
 
         def check(fruit):
