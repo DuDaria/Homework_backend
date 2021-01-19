@@ -25,14 +25,11 @@ print("")
 #2 Вариант через os.walk
 def list_dir_1():
     path = os.getcwd()
-    # print(path)
     os_walk = os.walk(path)
-    # print(tree)
     new_list = []
 
     for folder in os_walk:
         new_list.append(folder[1])
-    # print(new_list)
     dir_list = new_list[0]
     for i in dir_list:
         print('Папка: {}'.format(i)) 
