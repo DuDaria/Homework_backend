@@ -34,40 +34,20 @@
 import os
 import sys
 import argparse
+import re
 
 
-input_path_1 = sys.argv[2:]
-input_path_2 = sys.argv[3:]
-
-if input_path_1:
-    list_path_1 = list(input_path_1[0].split("/"))
+def get_name_folder_and_file(x):
+    input_path_1 = x[2:]
+    list_path_1 = list(input_path_1.split("/"))
     folder_name = list_path_1[1]
     file_name = list_path_1[2]
-elif input_path_1 and input_path_2:
-    list_fold = list(input_path_2[1].split("/"))
-    list_fold = list_fold[1]
-    ls_name = input_path_2[0]
-
-
-parser = argparse.ArgumentParser(description="Parser") #Создаем экземпляр класса ArgumentParser.
-# Добавляем в него информацию об ожидаемых параметрах с помощью 
-# метода add_argument (по одному вызову на каждый параметр).
-parser.add_argument('-touch', type=str, help='- Создать файл')
-parser.add_argument('-rm', type=str, help='- Удалить файл')
-parser.add_argument('-ls', type=str, help='- Посмотреть все файлы и подпапки в папке')
-parser.add_argument('-mkdir', type=str, help='- Создать папку')
-
-
-args = parser.parse_args()
-print('args =', args)
-touch = args.touch
-mkdir = args.mkdir
-ls = args.ls
-rm = args.rm
+    return folder_name, file_name
 
 
 def create_file(input_name_file):
 	file = open(input_name_file, "w")
+
 
 def create_folder(input_name_folder):
     """
@@ -78,6 +58,19 @@ def create_folder(input_name_folder):
         print('Папка \'{}\' успешно создана'.format(input_name_folder))
     except FileExistsError:
         print('Папка \'{}\' уже существует'.format(input_name_folder))
+    except OSError:
+        print("Синтаксическая ошибка в имени папки")
+
+        
+def go_to_folder(input_name_folder):
+    """
+    перейти в указанную папку
+    """
+    try:
+        os.chdir('{}'.format(input_name_folder))
+        print('Вы успешно перешли в папку \'{}\''.format(input_name_folder))
+    except FileNotFoundError:
+        print("Не удается найти указанную папку: \'{}\'".format(input_name_folder))
     except OSError:
         print("Синтаксическая ошибка в имени папки")
 
@@ -96,72 +89,98 @@ def list_dir():
 		for filename in filenames:
 			print("Файл:", os.path.join(dirpath, filename))	
 
-	
-def go_to_folder(input_name_folder):
-    """
-    перейти в указанную папку
-    """
-    try:
-        os.chdir('{}'.format(input_name_folder))
-        print('Вы успешно перешли в папку \'{}\''.format(input_name_folder))
-    except FileNotFoundError:
-        print("Не удается найти указанную папку: \'{}\'".format(input_name_folder))
-    except OSError:
-        print("Синтаксическая ошибка в имени папки")
 
-	
-# Создать файл		
-if touch:
-	# print("ВЫПОЛНИЛСЯ touch")
-	if folder_name in os.listdir():
-		go_to_folder(folder_name)
+def do_your_job(args, parser):
 
-		if file_name in os.listdir():
-			print('Файл \'{}\' уже существует'.format(file_name))
-		else:
-			create_file(file_name)
-			print ("Файл \'{}\' успешно создан!".format(file_name))
+    # Создать файл
+    if args.touch:
+        # print('creating file', args.touch)
+        # print("ВЫПОЛНИЛСЯ touch")
+        folder_name, file_name = get_name_folder_and_file(args.touch)
 
-	else:
-		print('Папка \'{}\' не найдена'.format(folder_name))
-		while input("Создать папку 'y', для отмены нажмите любую клавишу: ") == "y":
-			create_folder(folder_name)
-			
-# Создать папку		
-elif mkdir:
-	# print("ВЫПОЛНИЛСЯ mkdir")
-	go_to_folder(folder_name)
+        if folder_name in os.listdir():
+            go_to_folder(folder_name)
 
-	if folder_name in os.listdir():
-		create_folder(file_name)
+            if file_name in os.listdir():
+                print('Файл \'{}\' уже существует'.format(file_name))
+            else:
+                create_file(file_name)
+                print ("Файл \'{}\' успешно создан!".format(file_name))
 
-	else:
-		while input("Создать указанную папку 'y', для отмены нажмите любую клавишу: ") == "y":
-			create_folder(folder_name)
-			
-# Удалить файл			
-elif rm:
-	# print("ВЫПОЛНИЛСЯ rm")
-	go_to_folder(folder_name)
+        else:
+            print('Папка \'{}\' не найдена'.format(folder_name))
+            qwestion = input("Создать указанную папку 'y', для отмены нажмите любую клавишу: ")
+            if qwestion == "y":
+                create_folder(folder_name)
+            else:
+                pass
 
-	if file_name in os.listdir():
-		go_to_folder(folder_name)
-		os.remove(file_name)
-		print ("Файл \'{}\' успешно удален!".format(file_name))
-	else:
-		print('Файл \'{}\' не найден'.format(file_name))
+    # Удалить файл  
+    if args.rm:
+        # print('deleting file', args.rm)
+        # print("ВЫПОЛНИЛСЯ rm")
+        folder_name, file_name = get_name_folder_and_file(args.rm)
+        
+        go_to_folder(folder_name)
+        
+        if file_name in os.listdir():
+            os.remove(file_name)
+            print ("Файл \'{}\' успешно удален!".format(file_name))
+        else:
+            print('Файл \'{}\' не найден'.format(file_name))
 
-# Посмотреть все файлы и подпапки в папке		
-elif ls:
-	# print("ВЫПОЛНИЛСЯ ls")
-	if folder_name in os.listdir():
-		go_to_folder(folder_name)
-		list_dir()
-	else:
-		go_to_folder(folder_name)
+    # Создать папку	
+    if args.mkdir:
+        # print('creating dir', args.mkdir)
+        # print("ВЫПОЛНИЛСЯ mkdir")
 
-else:
-    print("Not installed value, see --help")
+        folder_name, file_name = get_name_folder_and_file(args.mkdir)
 
-if touch and ls:
-	print("ДВА АРГУМЕНТА")
+        if folder_name in os.listdir():
+            go_to_folder(folder_name)
+            create_folder(file_name)
+        else:
+            print('Папка \'{}\' не найдена'.format(folder_name))
+            qwestion = input("Создать указанную папку 'y', для отмены нажмите любую клавишу: ")
+            if qwestion == "y":
+                create_folder(folder_name)
+            else:
+                pass
+
+    if not args.ls and not args.touch and not args.rm and not args.mkdir:
+        parser.print_help()
+    
+    # Посмотреть все файлы и подпапки в папке
+    if args.ls:
+        # print('looking at dir', args.ls)
+        # print("ВЫПОЛНИЛСЯ ls")
+        input_path_1 = args.ls[2:]
+        list_path_1 = list(input_path_1.split("/"))
+
+        if len(list_path_1) >= 4:
+            pass
+        else: 
+            folder_name = list_path_1[1]
+            if folder_name in os.listdir():
+                go_to_folder(folder_name)
+                list_dir()
+            else:
+                list_dir()
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Parser')
+    parser.add_argument('-ls', type=str, help='Посмотреть все файлы и подпапки в папке')
+    parser.add_argument('-touch', type=str, help='Создать файл')
+    parser.add_argument('-rm', type=str, help='Удалить файл')
+    parser.add_argument('-mkdir', type=str, help='Создать папку')
+    parser.set_defaults(func=do_your_job)
+    return parser.parse_args(), parser
+
+
+def main():
+    args, parser = parse_args()
+    args.func(args, parser)
+
+
+if __name__ == "__main__":
+    main()
