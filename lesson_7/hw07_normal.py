@@ -90,9 +90,19 @@ class Pupil(Person):
         return self.school_class
 
 class Teacher(Person):
+    _school_objects = set()
+
     def __init__(self, first_name, midl_name, last_name, object_name, school_class):
         super().__init__(first_name, midl_name, last_name)
-        self.object_name = object_name
+        
+        object_name = str(object_name).lower()
+        
+        if object_name not in self._school_objects:
+            self.object_name = object_name
+            self._school_objects.add(object_name)
+        else:
+            raise AttributeError('Duplicated value')
+
         self.school_class = school_class
 
     def get_object_name(self):
@@ -100,6 +110,9 @@ class Teacher(Person):
 
     def get_class(self):
         return self.school_class
+
+    def __del__(self):
+        self._school_objects.remove(self.object_name)
 
 
 if __name__ == "__main__":

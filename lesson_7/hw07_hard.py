@@ -29,7 +29,7 @@ class Job:
 
                         # переработка часов
                         sallary_hours = (int(hours.work_hours) - \
-                                        int(worker.hour_rate))*(cost_hour*2)
+                                        int(worker.hour_rate))* cost_hour
 
                         # Расчет зарплаты за месяц
                         sallary_in_month = ((int(worker.salary) * int(hours.work_hours)) / \
