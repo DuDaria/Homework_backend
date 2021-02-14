@@ -2,13 +2,13 @@ import random as r
 
 
 class Engine:
-    def __init__(self, start):
-        pass
+    def __init__(self, game):
+        self.__game = game
 
     def play(self):
         choice = input("Поиграем в 'ЛОТО'? y/n: ")
         if choice == 'y':   
-            Game.start()
+            self.__game.start()
         elif choice == 'n':
             print("Очень жаль что не удалось поиграть!")
             print("Программа завершена!")
@@ -17,16 +17,16 @@ class Engine:
             print("Программа завершена!")
 
 
-class Game():
-    def __init__(self):
-        pass
+class Game:
 
+    @staticmethod
     def start(): 
         print("Игра началась!")
-        len_bar = len(Barrel.create_barrel())
-        print("Всего {} боченков".format(len_bar))
         barrels = Barrel.create_barrel()
+        len_bar = len(barrels)
+        print("Всего {} боченков".format(len_bar))
         user = Card.card_person()
+        # print(user)
         comp = Card.card_computer()
         i = 0
         new_barrels = []
@@ -70,10 +70,9 @@ class Game():
         print("Программа завершена!")
 
 
-class Card(Game):
-    def __init__(self):
-        pass
+class Card:
 
+    @staticmethod
     def create_card():
         card = r.sample(range(1, 91), 15)
 
@@ -108,9 +107,9 @@ class Card(Game):
         return Card.create_card()
 
 
-class Barrel(Game):
-    def __init__(self):
-        self.list = [i for i in range(1, 91)]
+class Barrel:
+    # def __init__(self):
+    #     self.list = [i for i in range(1, 91)]
 
     def create_barrel():
         # Для вывода боченков на экран по очереди
@@ -118,12 +117,6 @@ class Barrel(Game):
         r.shuffle(barrels) 
         return barrels
     
-    def get_barrel_for_geme():
-        pass
-
-    def put_barrel_table():
-        pass
-
 
 if __name__ == '__main__':
 
