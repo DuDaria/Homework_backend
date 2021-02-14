@@ -106,76 +106,44 @@ class Enterprise:
         employers = self.prod.add_empl()    
         return name, f"Код отдела: {code_dep}", f"Сотрудники:{employers}"
 
-    
-# --ОТДЕЛ УПРАВЛЕНИЯ----------------------------------------------------------
-class Control:
+
+class Department:
+    def __init__(self, *args):
+        self.args = args
+
+    def add_empl(self):
+        employees = []
+        for i in self.args:
+            for b in i:
+                for x in b[4]:
+                    if x == f'code_dep = {self._code}':
+                        employees.append(b)
+        return employees
+
+
+# --ОТДЕЛ УПРАВЛЕНИЯ-----------------------
+class Control(Department):
     _name = "Отдел управления предприятием"
     _code = 100
 
-    def __init__(self, *args):
-        self.args = args
 
-    def add_empl(self):
-        employees = []
-        for i in self.args:
-            for b in i:
-                for x in b[4]:
-                    if x == f'code_dep = {self._code}':
-                        employees.append(b)
-        return employees
-
-# --ОТДЕЛ КАДРОВ---------------------------------------------------------
-class HumanResourcesDepartment:
+# --ОТДЕЛ КАДРОВ----------------------------
+class HumanResourcesDepartment(Department):
     _name = "Отдел кадров"
     _code = 10
 
-    def __init__(self, *args):
-        self.args = args
 
-    def add_empl(self):
-        employees = []
-        for i in self.args:
-            for b in i:
-                for x in b[4]:
-                    if x == f'code_dep = {self._code}':
-                        employees.append(b)
-        return employees
-
-
-# --БУХГАЛТЕРИЯ -----------------------------------------------------------
-class Bookkeeping:
+# --БУХГАЛТЕРИЯ -----------------------------
+class Bookkeeping(Department):
     _name = "Бухгалтерия"
     _code = 20
 
-    def __init__(self, *args):
-        self.args = args
 
-    def add_empl(self):
-        employees = []
-        for i in self.args:
-            for b in i:
-                for x in b[4]:
-                    if x == f'code_dep = {self._code}':
-                        employees.append(b)
-        return employees
-
-
-# --ПРОДУКЦИЯ----------------------------------------------------------
-class Production:
+# --ПРОДУКЦИЯ--------------------------------
+class Production(Department):
     _name = "Отдел Продукции"
     _code = 30
 
-    def __init__(self, *args):
-        self.args = args
-
-    def add_empl(self):
-        employees = []
-        for i in self.args:
-            for b in i:
-                for x in b[4]:
-                    if x == f'code_dep = {self._code}':
-                        employees.append(b)
-        return employees
 
 class Person:
     def __init__(self, last_name, first_name, midl_name, birthday, phone):
