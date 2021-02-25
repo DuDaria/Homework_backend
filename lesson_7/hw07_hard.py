@@ -87,9 +87,6 @@ class HourseOf (Worker):
         self.l_name = last_name
         self.work_hours = work_hours
 
-    def get_l_name(self):
-        return self.l_name_h
-
     def get_work_hours(self):
         return self.work_hours
 

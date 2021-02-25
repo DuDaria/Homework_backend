@@ -39,9 +39,11 @@ class School():
         str_list_class = (str(list_class).replace("[", "").replace("]", "").replace("'", ""))
         print("Класс {}: {}".format(school_class, str_list_class))
 
-    def get_pupils(self):
+    def get_all_pupils(self):
+        all_pupils = []
         for pupil in self.pupils:
-            return pupil.get_full_name()
+            all_pupils.append(pupil.get_full_name())
+        return all_pupils
 
     def get_list_object_pupil(self, full_name):
         for pupil in self.pupils:

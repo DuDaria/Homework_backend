@@ -96,12 +96,12 @@ class IsoscelesTrapezoid(Figure):
     def square_trap(self):
         return ( (self.AB + self.CD)/2)*(math.sqrt(self.BC**2 - ((self.AB - self.CD)**2/4)) )
 
+if __name__ == "__main__":
+    triangle = Triangle((3, 2), (1, 1), (1, 3))
+    trapezoid = IsoscelesTrapezoid((1, 1), (1, 5), (3, 4), (3, 2))
+      
+    figure1 = Figure(triangle.get_name(), triangle.perim_triang(), triangle.square_triang())
+    figure2 = Figure(trapezoid.get_name(), trapezoid.perim_trap(), trapezoid.square_trap())
 
-triangle = Triangle((3, 2), (1, 1), (1, 3))
-trapezoid = IsoscelesTrapezoid((1, 1), (1, 5), (3, 4), (3, 2))
-  
-figure1 = Figure(triangle.get_name(), triangle.perim_triang(), triangle.square_triang())
-figure2 = Figure(trapezoid.get_name(), trapezoid.perim_trap(), trapezoid.square_trap())
-
-print(figure1.get_result() + triangle.get_result())
-print(figure2.get_result() + trapezoid.get_side_len())
+    print(figure1.get_result() + triangle.get_result())
+    print(figure2.get_result() + trapezoid.get_side_len())
