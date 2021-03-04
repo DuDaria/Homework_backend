@@ -143,50 +143,49 @@ def new_table():
     session.commit()
 new_table()
 
+# Получаем данные **************************************************
+# 3. Выдайте всю информацию о спортсменах из таблицы sportsman.
+for row in session.query(Sportsman, Sportsman.fullname).all(): 
+    print (row.Sportsman) 
+print("")
+
+# #  4. Выдайте наименование и мировые результаты по всем соревнованиям.
+for instance in session.query(Competition, Competition.name, Competition.world_record): 
+    print ("%s - %s" % (instance.name, instance.world_record))
+print("")
+
+# #  5. Выберите имена всех спортсменов, которые родились в 1990 году.
+for item in session.query(Sportsman, Sportsman.fullname, Sportsman.year_of_birth). \
+filter(Sportsman.year_of_birth == 1990):
+    print ("%s - %s" % (item.fullname, item.year_of_birth))
+print("")
+
+# 6. Выберите наименование и мировые результаты по всем соревнованиям, 
+# установленные 12-05-2010 или 15-05-2010.
+for item in session.query(Competition, Competition.name, Competition.world_record, Competition.set_date). \
+filter(Competition.set_date == '15-05-2010'):
+    print ("%s - %s - %s" % (item.name, item.world_record, item.set_date))
+print("")
+
+# 7. Выберите дату проведения всех соревнований, проводившихся в Москве 
+# и  полученные на них результаты равны 10 секунд.
+for item in session.query(ResultCompetition, ResultCompetition.hold_date, 
+ResultCompetition.city, ResultCompetition.result). \
+filter(ResultCompetition.result == 10, ResultCompetition.city == 'Moscow'):
+    print ("%s - %s - %s" % (item.hold_date, item.city, item.result))
+print("")
+
+# #  8. Выберите имена всех спортсменов, у которых персональный рекорд менее 25 с.
+for item in session.query(Sportsman, Sportsman.fullname, Sportsman.personal_record). \
+filter(Sportsman.personal_record < 25):
+    print ("%s - %s" % (item.fullname, item.personal_record))
+
+
+# 9. Создать таблицу как результат выполнения команды SELECT (result_competition 
+# сортировка по результатам) и вывод на экран созданной таблицы
+for item in session.query(ResultSportsman, ResultSportsman.city, 
+ResultSportsman.result, ResultSportsman.hold_date): 
+    print ("%s - %s - %s" % (item.result, item.city, item.hold_date)) 
+
 # Закрываем соединение с базой данных
 session.close()
-
-if __name__ == "__main__":
-    # Получаем данные **************************************************
-    # 3. Выдайте всю информацию о спортсменах из таблицы sportsman.
-    for row in session.query(Sportsman, Sportsman.fullname).all(): 
-        print (row.Sportsman) 
-    print("")
-
-    # #  4. Выдайте наименование и мировые результаты по всем соревнованиям.
-    for instance in session.query(Competition, Competition.name, Competition.world_record): 
-        print ("%s - %s" % (instance.name, instance.world_record))
-    print("")
-
-    # #  5. Выберите имена всех спортсменов, которые родились в 1990 году.
-    for item in session.query(Sportsman, Sportsman.fullname, Sportsman.year_of_birth). \
-    filter(Sportsman.year_of_birth == 1990):
-        print ("%s - %s" % (item.fullname, item.year_of_birth))
-    print("")
-
-    # 6. Выберите наименование и мировые результаты по всем соревнованиям, 
-    # установленные 12-05-2010 или 15-05-2010.
-    for item in session.query(Competition, Competition.name, Competition.world_record, Competition.set_date). \
-    filter(Competition.set_date == '15-05-2010'):
-        print ("%s - %s - %s" % (item.name, item.world_record, item.set_date))
-    print("")
-
-    # 7. Выберите дату проведения всех соревнований, проводившихся в Москве 
-    # и  полученные на них результаты равны 10 секунд.
-    for item in session.query(ResultCompetition, ResultCompetition.hold_date, 
-    ResultCompetition.city, ResultCompetition.result). \
-    filter(ResultCompetition.result == 10, ResultCompetition.city == 'Moscow'):
-        print ("%s - %s - %s" % (item.hold_date, item.city, item.result))
-    print("")
-
-    # #  8. Выберите имена всех спортсменов, у которых персональный рекорд менее 25 с.
-    for item in session.query(Sportsman, Sportsman.fullname, Sportsman.personal_record). \
-    filter(Sportsman.personal_record < 25):
-        print ("%s - %s" % (item.fullname, item.personal_record))
-
-
-    # 9. Создать таблицу как результат выполнения команды SELECT (result_competition 
-    # сортировка по результатам) и вывод на экран созданной таблицы
-    for item in session.query(ResultSportsman, ResultSportsman.city, 
-    ResultSportsman.result, ResultSportsman.hold_date): 
-        print ("%s - %s - %s" % (item.result, item.city, item.hold_date)) 
