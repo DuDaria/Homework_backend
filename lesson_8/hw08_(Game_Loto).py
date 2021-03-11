@@ -34,13 +34,28 @@ class Game:
                 choice = input("Для выхода нажмите 'q'.\nЗачеркнуть цифру? (y/n): ")
 
                 if choice == 'y':
+                    correct_answer = False
                     for x in self.user:
                         for y in x:
                             if y == barrel:
-                                x[x.index(y)] = '-'
+                                x[x.index(y)] = '-' 
+                                correct_answer = True
+                    if not correct_answer:
+                        print("Боченка № {} нет в вашей карточке!\nВы проиграли!".format(barrel))
+                        print("Игра окончена!")
+                        break
 
                 elif choice == 'n':
-                    pass
+                    correct_answer = True
+                    for x in self.user:
+                        for y in x:
+                            if y == barrel:
+                                correct_answer = False
+                    if not correct_answer:
+                        print("Бочонок № {} был в вашей карточке!\nВы проиграли!".format(barrel))
+                        print("Игра окончена!")
+                        break
+
                 elif choice == 'q':
                     print("Игра окончена!")
                     break
